@@ -1,14 +1,14 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 
-function Display({ display1, setDisplay }) {
-    console.log({ display1 })
+function Display({ display1 }) {
+    //console.log('from Display', { display1 }, parseFloat(display1))
     return (
         <div>
             <Container className="pt-5">
                 <Row>
                     <Col className="border border-primary text-right">
-                        <h2 className="border">{display1}</h2>
+                        <h2 className="border" id="display">{display1}</h2>
                     </Col>
                 </Row>
             </Container>
