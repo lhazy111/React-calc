@@ -9,7 +9,8 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
     console.log('currentInput', currentInput);
     console.log('decim:', decim)
     console.log('operand', operand)
-    setDisplay(currentInput)
+    //setDisplay(currentInput)
+
 
     //----------------button styles--------------------------------
     const st = ['border border-dark bg-secondary text-center text-light p-0',
@@ -35,6 +36,7 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
         setDecim(false)
         setElements([])
         setCurrentInput("0")
+        setOperand(false)
     }
 
     const resetCurrent = () => {
@@ -49,10 +51,13 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
             console.log('adding key to currentinput')
             if (currentInput === '0' && val === '0') {
                 setCurrentInput('0')
+                setDisplay('0')
             } else if (currentInput === '0' && isNumber(val)) {
                 setCurrentInput(val)
+                setDisplay(val)
             } else {
                 setCurrentInput(currentInput + val)
+                setDisplay(display1 + val)
             }
         }
     }
@@ -62,9 +67,16 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
         if (decim) {
             console.log('kolejny przecinek')
         } else {
-            console.log('przecinek')
-            setCurrentInput(currentInput + val)
-            setDecim(true)
+            if (operand) {
+                setOperand(false)
+                newToken('0' + val)
+                setDecim(true)
+            } else {
+                console.log('przecinek')
+                setCurrentInput(currentInput + val)
+                setDecim(true)
+            }
+
         }
 
     }
@@ -82,11 +94,99 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
     }
 
     const newToken = (token) => {
+        setDisplay(token)
         let newElement = [...elements, currentInput]
         setElements(newElement)
         setCurrentInput(token)
+        if (token === '=') { count(elements) }
+
+    }
+    const firstIndex = (arr, op1, op2) => {
+        let op1index = arr.indexOf(op1)
+        let op2index = arr.indexOf(op2)
+        if (op1index === -1 && op2index === -1) {
+            return -1
+        } else if (op2index === -1) {
+            return op1index
+        } else if (op1index === -1) {
+            return op2index
+        }
+        else {
+            return op1index < op2index ? op1index : op2index
+        }
+    }
+    const count = (elements) => {
+        let arr1 = [...elements]
+        let arr2 = []
+        let score = 0
+        let index = 0
+        while (firstIndex(arr1, '/', '*') !== -1) {
+            console.log('razypodzelic')
+            index = firstIndex(arr1, '/', '*')
+            console.log('index', index)
+            score = eval(arr1[index - 1] + arr1[index] + arr1[index + 1])
+            arr2 = [...arr1.slice(0, index - 1), score.toString(), ...arr1.slice(index + 2, arr1.length)]
+            arr1 = [...arr2]
+            console.log('wynikowa', arr1)
+
+        }
+        while (firstIndex(arr1, '+', '-') !== -1) {
+            console.log('plusyminusy')
+            let index = firstIndex(arr1, '+', '-')
+            console.log('index', index)
+            score = eval(arr1[index - 1] + arr1[index] + arr1[index + 1])
+            arr2 = [...arr1.slice(0, index - 1), score.toString(), ...arr1.slice(index + 2, arr1.length)]
+            arr1 = [...arr2]
+            console.log('wynikowa', arr1)
+
+        } return arr1[0]
+        //let index = firstIndex(elements, '/', '*')
+        //console.log('operation:', eval(elements[index - 1] + elements[index] + elements[index + 1]))
+        //console.log('first operation = ', eval(elements[0] + elements[1] + elements[2]))
     }
 
+    const count2 = (elements) => {
+        let arr1 = [...elements]
+        let arr2 = []
+        let found = 0
+        let score = 0
+        while (arr1.indexOf('x') !== -1) {
+            found = arr1.indexOf('x');
+            score = Number(arr1[found - 1]) * Number(arr1[found + 1])
+            arr2 = [...arr1.slice(0, found - 1), score, ...arr1.slice(found + 2, arr1.length)]
+            arr1 = [...arr2]
+            console.log('wynikowa', arr1)
+        }
+
+        while (arr1.indexOf('/') !== -1) {
+            found = arr1.indexOf('/');
+            score = Number(arr1[found - 1]) / Number(arr1[found + 1])
+            arr2 = [...arr1.slice(0, found - 1), score, ...arr1.slice(found + 2, arr1.length)]
+            arr1 = [...arr2]
+            console.log('wynikowa', arr1)
+        }
+
+        while (arr1.indexOf('+') !== -1) {
+            found = arr1.indexOf('+');
+            score = Number(arr1[found - 1]) + Number(arr1[found + 1])
+            arr2 = [...arr1.slice(0, found - 1), score, ...arr1.slice(found + 2, arr1.length)]
+            arr1 = [...arr2]
+            console.log('wynikowa', arr1)
+        }
+
+        while (arr1.indexOf('-') !== -1) {
+            found = arr1.indexOf('-');
+            score = Number(arr1[found - 1]) - Number(arr1[found + 1])
+            arr2 = [...arr1.slice(0, found - 1), score, ...arr1.slice(found + 2, arr1.length)]
+            arr1 = [...arr2]
+            console.log('wynikowa', arr1)
+        }
+        return arr1[0]
+    }
+
+    if (currentInput === '=') {
+        setDisplay(count(elements))
+    }
     //---------------------keyboard click handler ----------------------------
     const handleClick = val => {
         console.log('clicked: ', val)//message to console what key clicked
@@ -113,12 +213,15 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
             case '+':
             case '-':
             case '/':
-            case 'x':
+            case '*':
                 setOperand(true)
                 addOperand(val)
                 break;
-            default:
-            //count()
+            case '=':
+                console.log('=')
+                setOperand(true)
+                addOperand(val)
+                break;
 
         }
         /*--------------is key clicked a number??-----------------------------
@@ -136,7 +239,7 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
                 setCurrentInput(currentInput + val)
                 setDecim(true)
             }
-
+    
         }
         //----------------operand clicked-----------------------------
         else {
@@ -159,7 +262,7 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
                     } else {
                         //setCurrentInput(currentInput + val)
                     }
-
+    
                     break;
                 case 'AC':
                     setCurrentInput("")
@@ -169,7 +272,7 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
                     break;
             }
         }
-
+    
         //---------------------------------------------------------------------------------
         /*     else {
                 setDisplay("0")

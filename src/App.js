@@ -18,7 +18,7 @@ function App() {
     { id: 'seven', val: '7', look: 0, size: 3 },
     { id: 'eight', val: '8', look: 0, size: 3 },
     { id: 'nine', val: '9', look: 0, size: 3 },
-    { id: 'multiply', val: "x", look: 1, size: 3 },
+    { id: 'multiply', val: "*", look: 1, size: 3 },
     { id: 'four', val: '4', look: 0, size: 3 },
     { id: 'five', val: '5', look: 0, size: 3 },
     { id: 'six', val: '6', look: 0, size: 3 },
