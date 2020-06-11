@@ -9,6 +9,7 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
     console.log('currentInput', currentInput);
     console.log('decim:', decim)
     console.log('operand', operand)
+    setDisplay(currentInput)
 
     //----------------button styles--------------------------------
     const st = ['border border-dark bg-secondary text-center text-light p-0',
@@ -33,7 +34,7 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
         setDisplay('0')
         setDecim(false)
         setElements([])
-        setCurrentInput("")
+        setCurrentInput("0")
     }
 
     const resetCurrent = () => {
@@ -46,9 +47,14 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
             newToken(val)
         } else {
             console.log('adding key to currentinput')
-            setCurrentInput(currentInput + val)
+            if (currentInput === '0' && val === '0') {
+                setCurrentInput('0')
+            } else if (currentInput === '0' && isNumber(val)) {
+                setCurrentInput(val)
+            } else {
+                setCurrentInput(currentInput + val)
+            }
         }
-
     }
 
     const addDot = (val) => {
@@ -98,7 +104,7 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
             case '7':
             case '8':
             case '9':
-                console.log('number', val)
+                //console.log('number', val)
                 addKey(val)
                 break;
             case '.':
@@ -106,9 +112,13 @@ function Keyboard({ keys, display1, setDisplay, currentInput, setCurrentInput, e
                 break;
             case '+':
             case '-':
+            case '/':
+            case 'x':
                 setOperand(true)
                 addOperand(val)
                 break;
+            default:
+            //count()
 
         }
         /*--------------is key clicked a number??-----------------------------

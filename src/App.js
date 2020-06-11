@@ -7,7 +7,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 
 function App() {
   const [display1, setDisplay] = useState('0');
-  const [currentInput, setCurrentInput] = useState('');
+  const [currentInput, setCurrentInput] = useState('0');
   const [elements, setElements] = useState([])
   //const [operands, setOperands] = useState([])
   const [decim, setDecim] = useState(false)
