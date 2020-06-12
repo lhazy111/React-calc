@@ -2,7 +2,6 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 
 function Display({ display1 }) {
-    //console.log('from Display', { display1 }, parseFloat(display1))
     return (
         <div>
             <Container className="pt-5">
