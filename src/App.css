@@ -1,11 +1,40 @@
+body {
+  background-color: black;
+}
+
 #keyboardstyle {
   font-size: 25px;
   font-weight: 500;
 }
 
-.App {
-  /*background-color: black;*/
+#keyboardstyle :hover {
+  font-weight: 900;
+  border-color: greenyellow  !important;
+  text-shadow: 1px 1px 6px  hotpink;
 }
+
+.keyclicked {
+  font-weight: 900;
+  border-color: greenyellow  !important;
+  text-shadow: 1px 1px 6px  hotpink;
+}
+
+
+
+.App {
+  background-color: black;
+}
+
+.container-panel {
+    overflow-y: scroll;
+    height:300px;
+}
+
+h5 {
+  height:30px;
+}
+
+
 
 
 
