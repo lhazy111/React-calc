@@ -251,13 +251,13 @@ function App() {
         }
         //------------------------------
         if (isNumber(cI)) {
-          setCurrentInput(cI + val)
+          setCurrentInput(prevState => prevState + val)
         } else {
           if (cI.length === 2) {
-            setElements([...elements, cI[0]])
+            setElements(prevState => [...prevState, cI[0]])
             setCurrentInput(cI[1] + '0' + val)
           } else {
-            setElements([...elements, cI])
+            setElements(prevState => [...prevState, cI])
             setCurrentInput('0' + val)
           }
         }
@@ -276,11 +276,11 @@ function App() {
         }
         //----------------------------------------------------
         if (isOperand(lastClick)) {
-          setElements([...elements, currentInput])
+          setElements(prevState => [...prevState, cI])
           setCurrentInput(val)
         }
         if (isNumber(cI) && cI !== '0') {
-          setCurrentInput(cI + val)
+          setCurrentInput(prevState => prevState + val)
         }
         break;
       //-----------------------------case number------------------------------------------------------
@@ -311,16 +311,16 @@ function App() {
         }
         //-----number on display--------
         if (isNumber(cI)) {
-          setCurrentInput(cI + val)
+          setCurrentInput(prevState => prevState + val)
           break
         }
         //---if number pressed after operand ---
         if (isOperand(lastClick)) {
           if (cI.length === 2) {
-            setElements([...elements, cI[0]])
-            setCurrentInput(cI[1] + val)
+            setElements(prevState => [...prevState, cI[0]])
+            setCurrentInput(prevState => prevState[1] + val)
           } else {
-            setElements([...elements, cI])
+            setElements(prevState => [...prevState, cI])
             setCurrentInput(val)
           }
         }
@@ -332,7 +332,7 @@ function App() {
       case '-':
         newI = val
         if (isNumber(cI) && lastClick !== '=') {
-          setElements([...elements, cI])
+          setElements(prevState => [...prevState, cI])
         } else if (val === '-' && cI.length === 1 && lastClick !== '=') {
           newI = cI + val
         }
@@ -344,7 +344,7 @@ function App() {
         if (lastClick !== '=' && elements.length > 0) {
           setCalculate(true)
           if (isNumber(cI)) {
-            setElements([...elements, currentInput])
+            setElements(prevState => [...prevState, cI])
           }
         }
         break;
@@ -383,15 +383,13 @@ function App() {
           </Col>
           <Col xs={12} md={4} xl={3} className="border border-warning container-panel">
             <p>Notes</p>
-            <table className="table table-hover table-sm">
-              <tbody>
-                {elements.map((element, index) => (
-                  <tr key={index}>
-                    <td >{element}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {/* {elements.map((element, index) => (
+              <div key={index}>
+                {isNumber(element) && element}
+                {!isNumber(element) && element}
+              </div>
+            ))} */}
+            {elements.join(" ")}
           </Col>
         </Row>
       </Container>
