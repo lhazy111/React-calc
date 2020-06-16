@@ -1,5 +1,5 @@
 body {
-  background-color: whitesmoke;
+  background-color: rgb(33, 38, 109);
 }
 
 #keyboardstyle {
@@ -26,7 +26,7 @@ body {
 
 
 .App {
-  background-color: black;
+  background-color: rgb(33, 38, 109);
 }
 
 .container-panel {

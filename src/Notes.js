@@ -24,7 +24,7 @@ export default function Notes({ calculations, setCalculations, elements }) {
             <Container id="calculations" className="">
                 {calculations.map((calculation, index) => (
                     <Row key={index} className="border-bottom p-2">
-                        <span>
+                        <span className="text-monospace font-italic text-primary">
                             {calculation.join(" ")}
                         </span>
                     </Row>

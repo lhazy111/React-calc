@@ -25,7 +25,15 @@ function App() {
     console.log('calculate:', calculate)
     console.log('calculations: ', calculations)
   }
+
   checkState()
+
+  //------------------------------------RESET STATE-------------------------------------
+  const resetValues = (val) => {
+    console.log('values reset')
+    setCurrentInput(val)
+    setElements([])
+  }
   //-----------------------effect--------------------------------
   // useEffect(() => {
   //   if (calculate) {
@@ -36,142 +44,6 @@ function App() {
   //     setCalculate(false)
   //   }
   // }, [calculate, elements])
-
-  //------------------------------------RESET STATE-------------------------------------
-  const resetValues = (val) => {
-    console.log('values reset')
-    setCurrentInput(val)
-    setElements([])
-  }
-  //------------------------------------------------------------------------------------
-  // const addNumber = (val) => {
-  //   console.log('ADD NUM prev, curr, lastcurrin', prev, curr, currentInput[currentInput.length - 1])
-  //   if (operand) {
-  //     setOperand(false)
-  //     setElements([...elements, currentInput])
-  //   }
-  //   let newInput = currentInput + val
-  //   if (isNumber(prev) || prev === '.') {
-  //     console.log('current and prev are numbers or dot')
-  //     if (val === '0' && currentInput === '0') {
-  //       newInput = '0'
-  //     } else if (currentInput === '0') {
-  //       newInput = val
-  //     }
-  //     updateInput(newInput)
-  //   }
-
-  // }
-
-  //---------------------------------------------------------------
-  // const addNumber2 = (val) => {
-  //   if (operand) {
-  //     toggleOperand(false)
-  //     newToken(val)
-  //   } else {
-  //     console.log('adding key to currentinput')
-  //     if (currentInput === '0' && val === '0') {
-  //       updateInput('0')
-  //     } else if (currentInput === '0' && isNumber(val)) {
-  //       updateInput(val)
-  //     } else if (currentInput.length > 15) {
-  //       setAlertText('number too long')
-  //       setTimeout(() => { setAlertText('') }, 1000)
-  //     }
-  //     else {
-  //       updateInput(currentInput + val)
-  //     }
-  //   }
-  // }
-  //----------------------------------------------------------------------------
-  // const addDot = (val) => {
-  //   console.log('adding dot function')
-  //   toggleDecim(true)
-  //   if (!decim) {
-  //     if (operand) {
-  //       updateInput('0' + val)
-  //     } else {
-  //       updateInput(currentInput + val)
-  //     }
-  //   } else {
-  //     setAlertText('another dot?')
-  //     setTimeout(() => { setAlertText('') }, 600)
-  //   }
-  // }
-  //------------------------------------------------old
-  // const addDot2 = (val) => {
-  //   console.log('adding dot function')
-  //   if (decim) {
-  //     console.log('kolejny przecinek')
-  //   } else {
-  //     if (operand) {
-  //       toggleOperand(false)
-  //       newToken('0' + val)
-  //       toggleDecim(true)
-  //     } else {
-  //       updateInput(currentInput + val)
-  //       toggleDecim(true)
-  //     }
-  //   }
-  // }
-  //--------------------------------------------------------
-  // const addOperand = (val) => {
-  //   //console.log('add operand function', operand, decim)
-  //   toggleDecim(false)
-  //   if (!operand) {
-  //     let newElement = [...elements, (currentInput * 100 / 100).toString()]
-  //     updateElements(newElement)
-  //     toggleOperand(true)
-  //   }
-  //   if (operand && val === '-') {
-  //     console.log('porownanie', currentInput[currentInput.length - 1], curr, prev)
-  //     if (curr === '-') {
-  //       updateInput('-')
-  //     } else {
-  //       updateInput(currentInput + val)
-  //     }
-  //   }
-  //   else {
-  //     updateInput(val)
-  //   }
-  // }
-  //------------------------------------old--------------------------------
-  // const addOperand2 = (val) => {
-  //   console.log('addoperand function', val, 'operand', operand, 'current input', currentInput)
-  //   toggleDecim(false)
-  //   if (operand) {
-  //     console.log('operand again')
-  //     if (val === '-' && currentInput[currentInput.length - 1] !== '-') {
-  //       console.log('second operand is minus')
-  //       val = currentInput + val
-  //       //alert('hold')
-  //     }
-  //     updateInput(val)
-  //   } else {
-  //     newToken(val)
-  //   }
-  // }
-  //-------------------------------------------------------------------
-
-  //-----------------------------------------------------
-  // const newToken = (token) => {
-  //   let ci = currentInput
-  //   if (ci[ci.length - 1] === '-' && ci.length === 2) {
-  //     let newElement = [...elements, ci[0]]
-  //     updateElements(newElement)
-  //     updateInput(ci[ci.length - 1] + token)
-  //   } else if (isNumber(currentInput) && operand) {
-  //     console.log('reset required after =')
-  //     resetValues(token)
-  //   }
-  //   else {
-  //     if (isNumber(ci)) { ci = (ci * 10 / 10).toString() }
-  //     let newElement = [...elements, ci]
-  //     updateElements(newElement)
-  //     updateInput(token)
-  //   }
-  // }
-
   //---------------------------calculate helper-------------------------------------
   // const firstIndex = (arr, op1, op2) => {
   //   let op1index = arr.indexOf(op1)
@@ -188,21 +60,6 @@ function App() {
   //   }
   // }
   //--------------------------------end of calculate helper-------------------------------
-
-  //-------------------------------calculate  -----------------------------
-  const count = (elements) => {
-    let str = '';
-    elements.forEach(element => {
-      if (element < 0) {
-        str = str + `(${element})`
-      } else {
-        str = str + element
-      }
-    });
-    console.log(str)
-    // eslint-disable-next-line
-    return eval(str).toString()
-  }
   // const countPREV = (elements) => {
   //   let arr1 = [...elements]
   //   let arr2 = []
@@ -226,6 +83,40 @@ function App() {
   // }
   //--------------------------------------end of calculate--------------------------------
 
+  //-------------------------------calculate  -----------------------------
+  const count = (elements) => {
+    let str = '';
+    elements.forEach(element => {
+      if (element < 0) {
+        str = str + `(${element})`
+      } else {
+        str = str + element
+      }
+    });
+    console.log(str)
+    // eslint-disable-next-line
+    let score = eval(str)//.toPrecision(8).toString()
+    console.log('modulo', score % score)
+    if (score - Math.floor(score) !== 0) {
+      score = score.toPrecision(10)
+    } else {
+      score = score.toString()
+    }
+    return score// < 0 ? score.toFixed(10) : score.toString()
+
+  }
+  //------------------------------------------------------------------------------
+  const isSumTouCount = () => {
+    if (calculate) {
+      console.log('counting')
+      let score = count(elements)
+      setCalculations(prevState => [...prevState, [...elements, '=', score]])
+      setCurrentInput(score)
+      setElements([score])
+      setCalculate(false)
+    }
+  }
+
   //==================================click handler====================================================================
   const handleClick = val => {
     setLastClick(val)
@@ -240,9 +131,18 @@ function App() {
 
       //-------------------------------------case C--------------------------------------------------
       case 'C':
-        console.log('case C triggered')
-        setCurrentInput('0')
+        if (lastClick === 'C') {
+          break
+        }
+        if (!isOperand(lastClick)) {
+          setCurrentInput('0')
+        }
+        if (lastClick === '=') {
+          setCurrentInput('0')
+          setElements([])
+        }
         break
+
       //-------------------------------------------case dot--------------------------------------------
       case '.':
         //-------after equals----------
@@ -272,6 +172,7 @@ function App() {
           }
         }
         break;
+
       //-------------------------------case zero-------------------------------------------------------
       case '0':
         //----------------------divide by zero error----------
@@ -293,6 +194,7 @@ function App() {
           setCurrentInput(prevState => prevState + val)
         }
         break;
+
       //-----------------------------case number------------------------------------------------------
       case '1':
       case '2':
@@ -304,7 +206,7 @@ function App() {
       case '8':
       case '9':
         //---------------number too long------------
-        if (currentInput.length > 12) {
+        if (currentInput.length > 9) {
           setAlertText('number too long')
           setTimeout(() => { setAlertText('') }, 1000)
           break;
@@ -325,7 +227,7 @@ function App() {
           break
         }
         //---if number pressed after operand ---
-        if (isOperand(lastClick)) {
+        if (!isNumber(cI)) {
           if (cI.length === 2) {
             setElements(prevState => [...prevState, cI[0]])
             setCurrentInput(prevState => prevState[1] + val)
@@ -335,15 +237,17 @@ function App() {
           }
         }
         break;
+
       //------------------------------case + / * - -------------------------------------------------------
       case '+':
       case '/':
       case '*':
       case '-':
         newI = val
+        // cI = (cI * 100 / 100).toString()
         if (isNumber(cI) && lastClick !== '=') {
           setElements(prevState => [...prevState, cI])
-        } else if (val === '-' && cI.length === 1 && lastClick !== '=') {
+        } else if (val === '-' && cI.length === 1 && lastClick !== '=' && lastClick !== 'C') {
           newI = cI + val
         }
         setCurrentInput(newI)
@@ -358,34 +262,26 @@ function App() {
           }
         }
         break;
+
       //---------------------------------------------------default-----------------------------------
       default:
         console.log('default case')
     }
   }
   //=========================================click handler end=========================================================== 
-  const isSumTouCount = () => {
-    if (calculate) {
-      console.log('counting')
-      let score = count(elements)
-      setCalculations(prevState => [...prevState, [...elements, '=', score]])
-      setCurrentInput(score)
-      setElements([score])
-      setCalculate(false)
-    }
-  }
+
+
 
   isSumTouCount()
 
   return (
-    <div className="App border border-secondary p-5">
+    <div className="App">
       <Container className="text-center border border-warning">
         <h1>Welcome to React calculator</h1>
       </Container>
-      <Container className="border border-success p-5 mt-5 bg bg-success rounded" >
-        <p>container2</p>
-        <Row className="border border-dark  d-flex justify-content-center">
-          <Col xs={12} md={5} xl={4} className="bg-dark rounded p-3 mr-2">
+      <Container className="pt-5 p-3 mt-5 rounded" >
+        <Row className="pt-5 d-flex justify-content-center">
+          <Col xs={10} md={5} xl={4} className="bg-dark rounded p-3 m-2">
             <Display
               currentInput={currentInput}
               alertText={alertText} />
@@ -395,7 +291,7 @@ function App() {
               alertText={alertText}
             />
           </Col>
-          <Col xs={12} md={5} xl={4} className="border border-dark rounded p-3 ml-2">
+          <Col xs={10} md={5} xl={4} className="border border-dark rounded p-3 m-2 bg-dark">
             <Notes
               calculations={calculations}
               setCalculations={setCalculations}
