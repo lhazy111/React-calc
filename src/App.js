@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Keyboard from './Keyboard'
+import Notes from './Notes'
 import { Row, Col, Container } from 'react-bootstrap';
+import Display from './Display';
 
 
 function App() {
@@ -11,6 +13,7 @@ function App() {
   const [calculate, setCalculate] = useState(false)
   const [alertText, setAlertText] = useState('')
   const [lastClick, setLastClick] = useState('')
+  const [calculations, setCalculations] = useState([])
   const operands = '*+/-'
   const isOperand = o => { return operands.includes(o) }
   const isNumber = n => { return isNaN(n) ? false : true }
@@ -20,6 +23,7 @@ function App() {
     console.log('currentInput', currentInput);
     console.log('lastclick = ', lastClick)
     console.log('calculate:', calculate)
+    console.log('calculations: ', calculations)
   }
   checkState()
   //-----------------------effect--------------------------------
@@ -233,6 +237,12 @@ function App() {
       case 'AC':
         resetValues('0')
         break;
+
+      //-------------------------------------case C--------------------------------------------------
+      case 'C':
+        console.log('case C triggered')
+        setCurrentInput('0')
+        break
       //-------------------------------------------case dot--------------------------------------------
       case '.':
         //-------after equals----------
@@ -294,7 +304,7 @@ function App() {
       case '8':
       case '9':
         //---------------number too long------------
-        if (currentInput.length > 15) {
+        if (currentInput.length > 12) {
           setAlertText('number too long')
           setTimeout(() => { setAlertText('') }, 1000)
           break;
@@ -358,6 +368,7 @@ function App() {
     if (calculate) {
       console.log('counting')
       let score = count(elements)
+      setCalculations(prevState => [...prevState, [...elements, '=', score]])
       setCurrentInput(score)
       setElements([score])
       setCalculate(false)
@@ -367,29 +378,29 @@ function App() {
   isSumTouCount()
 
   return (
-    <div className="App border border-secondary">
+    <div className="App border border-secondary p-5">
       <Container className="text-center border border-warning">
         <h1>Welcome to React calculator</h1>
       </Container>
-      <Container className="border border-success pt-5 mt-5 bg bg-success rounded" >
+      <Container className="border border-success p-5 mt-5 bg bg-success rounded" >
         <p>container2</p>
-        <Row className="border border-dark pt-5 d-flex justify-content-center">
-          <Col xs={12} md={6} xl={4} className="border border-warning container-panel">
+        <Row className="border border-dark  d-flex justify-content-center">
+          <Col xs={12} md={5} xl={4} className="bg-dark rounded p-3 mr-2">
+            <Display
+              currentInput={currentInput}
+              alertText={alertText} />
             <Keyboard
               handleClick={handleClick}
               currentInput={currentInput}
               alertText={alertText}
             />
           </Col>
-          <Col xs={12} md={4} xl={3} className="border border-warning container-panel">
-            <p>Notes</p>
-            {/* {elements.map((element, index) => (
-              <div key={index}>
-                {isNumber(element) && element}
-                {!isNumber(element) && element}
-              </div>
-            ))} */}
-            {elements.join(" ")}
+          <Col xs={12} md={5} xl={4} className="border border-dark rounded p-3 ml-2">
+            <Notes
+              calculations={calculations}
+              setCalculations={setCalculations}
+              elements={elements}
+            />
           </Col>
         </Row>
       </Container>

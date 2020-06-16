@@ -4,7 +4,8 @@ import './App.css';
 
 function Keyboard({ handleClick, currentInput, alertText, prev, curr, setPrev, setCurr }) {
     const keyboard = [
-        { id: 'clear', val: 'AC', look: 0, size: 9 },
+        { id: 'clear', val: 'AC', look: 0, size: 6 },
+        { id: 'clrlast', val: 'C', look: 0, size: 3 },
         { id: 'divide', val: '/', look: 1, size: 3 },
         { id: 'seven', val: '7', look: 0, size: 3 },
         { id: 'eight', val: '8', look: 0, size: 3 },
@@ -24,18 +25,12 @@ function Keyboard({ handleClick, currentInput, alertText, prev, curr, setPrev, s
     ]
 
     //----------------button styles--------------------------------
-    const st = ['border border-dark bg-secondary text-center text-light p-0 keyboard',
-        'border border-dark bg-warning text-center text-light p-0 keyboard']
+    const st = ['border border-dark rounded bg-secondary text-center text-light p-0 keyboard',
+        'border border-dark rounded bg-warning text-center text-light p-0 keyboard']
 
     return (
         <>
-            <Container className="border border-sucess">
-                <h5 className="text-center text-uppercase">{alertText}</h5>
-                <Row>
-                    <Col className="border border-primary text-right overflow-auto">
-                        <h3 id="display">{currentInput}</h3>
-                    </Col>
-                </Row>
+            <Container className="">
                 <Row id="keyboardstyle">
                     {keyboard.map((key, index) => (
                         <Col xs={key.size}

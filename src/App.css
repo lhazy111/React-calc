@@ -1,5 +1,5 @@
 body {
-  background-color: black;
+  background-color: whitesmoke;
 }
 
 #keyboardstyle {
@@ -19,6 +19,10 @@ body {
   text-shadow: 1px 1px 6px  hotpink;
 }
 
+#calculations {
+  height: 238px;
+  overflow-y: scroll;
+}
 
 
 .App {
