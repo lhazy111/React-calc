@@ -95,14 +95,11 @@ function App() {
     });
     console.log(str)
     // eslint-disable-next-line
-    let score = eval(str)//.toPrecision(8).toString()
-    console.log('modulo', score % score)
-    if (score - Math.floor(score) !== 0) {
-      score = score.toPrecision(10)
-    } else {
-      score = score.toString()
-    }
-    return score// < 0 ? score.toFixed(10) : score.toString()
+    let score = eval(str)//.toString()
+
+    score = score.toFixed(8) * 100 / 100
+
+    return score.toString()// < 0 ? score.toFixed(10) : score.toString()
 
   }
   //------------------------------------------------------------------------------
@@ -205,16 +202,17 @@ function App() {
       case '7':
       case '8':
       case '9':
-        //---------------number too long------------
-        if (currentInput.length > 9) {
-          setAlertText('number too long')
-          setTimeout(() => { setAlertText('') }, 1000)
-          break;
-        }
+
         //-------after equals----------
         if (lastClick === '=') {
           resetValues(val)
           break
+        }
+        //---------------number too long------------
+        if (currentInput.length > 16) {
+          setAlertText('number too long')
+          setTimeout(() => { setAlertText('') }, 1000)
+          break;
         }
         //--------------display shows 0 only----
         if (cI === '0') {
@@ -276,12 +274,12 @@ function App() {
 
   return (
     <div className="App">
-      <Container className="text-center border border-warning">
-        <h1>Welcome to React calculator</h1>
+      <Container className="text-center text-warning mt-4 py-2 d-flex justify-content-center">
+        <h1 className="">&lt;_Lou/&gt; React calculator</h1>
       </Container>
-      <Container className="pt-5 p-3 mt-5 rounded" >
-        <Row className="pt-5 d-flex justify-content-center">
-          <Col xs={10} md={5} xl={4} className="bg-dark rounded p-3 m-2">
+      <Container fluid className="pt-5 p-3 mt-5 rounded mx-auto"  >
+        <Row className="pt-5 d-flex justify-content-center align-items-center">
+          <Col xs={10} sm={8} md={6} xl={4} lg={5} className="bg-dark rounded p-3 m-2 shadow">
             <Display
               currentInput={currentInput}
               alertText={alertText} />
@@ -291,7 +289,7 @@ function App() {
               alertText={alertText}
             />
           </Col>
-          <Col xs={10} md={5} xl={4} className="border border-dark rounded p-3 m-2 bg-dark">
+          <Col xs={10} sm={8} md={6} xl={4} lg={5} className="border border-dark rounded p-3 m-2 bg-dark shadow">
             <Notes
               calculations={calculations}
               setCalculations={setCalculations}
@@ -300,6 +298,7 @@ function App() {
           </Col>
         </Row>
       </Container>
+      <footer className="pt-5 text-warning text-monospace text-center" sticky="bottom"> &lt;_Lou/&gt; 2020</footer>
     </div>
   );
 }
